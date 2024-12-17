@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route} from "react-router-dom";
 import { Editor } from "./components/Editor";
 import { RenderedPage } from "./components/RenderedPage";
 import LoginPage from "./pages/LoginPage";
@@ -6,7 +6,9 @@ import SignupPage from "./pages/SignupPage";
 import Dashboard from "./pages/Dashboard";
 function App() {
   return (
+   
     <Router>
+    
       {/* <div>
         <h1>Welcome to the CMS App</h1>
         <ul>
@@ -23,10 +25,11 @@ function App() {
           <Route path="/rendered-page" element={<RenderedPage />} />
           <Route path="/" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
-        <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/dashboard" element={<Dashboard />} />
         </Routes>
-      
+        
     </Router>
+  
   );
 }
 

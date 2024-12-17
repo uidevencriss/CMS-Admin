@@ -11,3 +11,7 @@ export const login = async (email, password) => {
 export const signup = async (body) => {
     return await axios.post(`${API_URL}/user-sign-up`, body);
   };
+export const blogslisting = async (selectedValue) => {
+  const response = await axios.post(`${API_URL}/get-blogs`, {selectedValue});
+  return response.data;
+}
