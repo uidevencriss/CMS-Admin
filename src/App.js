@@ -4,6 +4,7 @@ import { RenderedPage } from "./components/RenderedPage";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
 import Dashboard from "./pages/Dashboard";
+import Client from "./app/puckpath/client.tsx"
 function App() {
   return (
    
@@ -26,6 +27,7 @@ function App() {
           <Route path="/" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/blogs/reactapp" element={<Client />} />
         </Routes>
         
     </Router>
