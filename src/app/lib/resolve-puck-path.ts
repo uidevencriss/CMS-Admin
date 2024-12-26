@@ -5,7 +5,7 @@ const resolvePuckPath = (puckPath: string[] = []) => {
   
     return {
       isEdit,
-      path: `/${(isEdit
+      path: `${(isEdit
         ? [...puckPath].slice(0, puckPath.length - 1)
         : [...puckPath]
       ).join("/")}`,

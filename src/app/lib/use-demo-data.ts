@@ -18,9 +18,9 @@ export const useDemoData = ({
   isEdit: boolean;
 }) => {
   // unique b64 key that updates each time we add / remove components
-  const componentKey = Buffer.from(
+  const componentKey = btoa(
     `${Object.keys(config.components).join("-")}-${JSON.stringify(initialData)}`
-  ).toString("base64");
+  );
 
   const key = `puck-demo:${componentKey}:${path}`;
 

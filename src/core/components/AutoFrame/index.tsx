@@ -353,7 +353,7 @@ function AutoFrame({
       <autoFrameContext.Provider value={ctx}>
         {loaded && mountTarget && (
           <CopyHostStyles debug={debug} onStylesLoaded={onStylesLoaded}>
-            {createPortal(children, mountTarget)}
+            {createPortal(<>{children}</>, mountTarget) as ReactNode}
           </CopyHostStyles>
         )}
       </autoFrameContext.Provider>

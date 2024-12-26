@@ -27,7 +27,9 @@ function App() {
           <Route path="/" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/blogs/reactapp" element={<Client />} />
+          <Route path="/blogs/reactapp" element={<Client path="/blogs/reactapp" />} />
+          <Route path="/blogs/reactapp/edit" element={<Client isEdit path="/blogs/reactapp" />} />
+
         </Routes>
         
     </Router>

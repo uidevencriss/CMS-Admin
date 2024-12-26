@@ -70,7 +70,7 @@ export const conf: UserConfig = {
 };
 
 export const initialData: Record<string, UserData> = {
-  "/": {
+  "/blogs/reactapp": {
     content: [
       {
         type: "Hero",
