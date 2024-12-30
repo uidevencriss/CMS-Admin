@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import { MyRequestBody } from "src/services/authServices";
 import { apiCall } from "src/services/authServices";
 import { linkapi } from "src/services/authServices";
@@ -26,24 +27,53 @@ export const useDemoData = ({
   );
 
   const key = `puck-demo:${componentKey}:${path}`;
-  // const [data, setData] = useState<Partial<UserData>>({});
+  //const [data, setData] = useState<Partial<UserData>>({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const location = useLocation();
+  const blogUrl = location.state.postId || {};
 
+  console.log(blogUrl);
   const [data] = useState<Partial<UserData>>(() => {
-    if (isBrowser) {
-      // debugger;
-      const dataStr = localStorage.getItem(key);
-      //const dataStr = "";
+    const dataStr = localStorage.getItem("blogdetails");
 
-      if (dataStr) {
-        return JSON.parse(dataStr);
-      }
+    //const dataStr = "";
 
-      return initialData[path] || {};
+    if (dataStr) {
+      return JSON.parse(dataStr);
     }
-  });
 
+    return initialData[path] || {};
+  });
+  // useEffect(() => {
+  //   if (blogUrl) {
+  //     const fetchData = async () => {
+  //       try {
+  //         const result = await linkapi(blogUrl); // API call with blog URL
+  //         const parser = new DOMParser();
+  //         const doc = parser.parseFromString(result.data, "text/html");
+  //         const preTag = doc.querySelector("pre");
+
+  //         if (preTag) {
+  //           const jsonString = preTag.textContent;
+  //           if (jsonString) {
+  //             const parsedData = JSON.parse(jsonString); // Parse JSON string
+  //             debugger;
+  //             setData(parsedData); // Update state with fetched data
+  //           }
+  //         }
+  //       } catch (err) {
+  //         console.error("Error while fetching API:", err);
+  //         setError("Failed to fetch data."); // Set error state
+  //       } finally {
+  //         setLoading(false); // Ensure loading stops
+  //       }
+  //     };
+
+  //     fetchData();
+  //   }
+  // }, []);
+  console.log("Aks", data);
   // useEffect(() => {
   //   if (isBrowser) {
   //     const fetchData = async () => {

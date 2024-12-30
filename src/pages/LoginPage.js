@@ -12,8 +12,7 @@ const LoginPage = () => {
         setError(data.message || "Login failed. Please try again.");
         return;
       }
-      
-      localStorage.setItem("authToken", data.token);
+      localStorage.setItem("authToken", data.Token);
       window.location.href = "/dashboard";
     } catch (error) {
       setError(error.response?.data?.message || "Login failed. Please try again.");

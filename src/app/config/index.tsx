@@ -9,6 +9,7 @@ import { Logos, LogosProps } from "./blocks/Logos";
 import { Stats, StatsProps } from "./blocks/Stats";
 import { Text, TextProps } from "./blocks/Text";
 import { VerticalSpace, VerticalSpaceProps } from "./blocks/VerticalSpace";
+import { TitleProps, Title } from "./blocks/Title";
 
 import Root, { RootProps } from "./root";
 
@@ -20,6 +21,7 @@ export type Props = {
   Columns: ColumnsProps;
   Hero: HeroProps;
   Heading: HeadingProps;
+  Title:TitleProps;
   Flex: FlexProps;
   Logos: LogosProps;
   Stats: StatsProps;
@@ -45,7 +47,7 @@ export const conf: UserConfig = {
   },
   categories: {
     layout: {
-      components: ["Columns", "Flex", "VerticalSpace"],
+      components: ["Columns", "Flex", "VerticalSpace","Title"],
     },
     typography: {
       components: ["Heading", "Text"],
@@ -60,6 +62,7 @@ export const conf: UserConfig = {
     Card,
     Columns,
     Hero,
+    Title,
     Heading,
     Flex,
     Logos,
@@ -70,7 +73,7 @@ export const conf: UserConfig = {
 };
 
 export const initialData: Record<string, UserData> = {
-  "/blogs/reactapp": {
+  "/blogs/reactapps": {
     content: [
       {
         type: "Hero",
@@ -83,7 +86,7 @@ export const initialData: Record<string, UserData> = {
               label: "Visit GitHub",
               href: "https://github.com/measuredco/puck",
             },
-            { label: "Edit this page", href: "/edit", variant: "secondary" },
+            { label: "Edit this page", href: "/blogs/reactapp/edit", variant: "secondary" },
           ],
           id: "Hero-1687283596554",
           image: {

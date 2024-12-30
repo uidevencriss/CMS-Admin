@@ -3,7 +3,7 @@ import { Form, Button, Row, Col } from 'react-bootstrap';
 import Table from 'react-bootstrap/Table';
 import { blogslisting } from '../services/authService';
 import { useNavigate } from 'react-router-dom';
-
+import { linkapi } from '../services/authService';
 const Dashboard = () => {
   const [selectedOption, setSelectedOption] = useState('');
   const [apiData, setApiData] = useState([]);
@@ -11,6 +11,7 @@ const Dashboard = () => {
   const navigate = useNavigate();
   useEffect(() => {
     const isAuthenticated = localStorage.getItem('authToken');
+
     if (!isAuthenticated) {
       navigate('/');
     }
@@ -29,17 +30,35 @@ const Dashboard = () => {
   
 
   const handleAddNew = () => {
-    navigate('/editor', { state: { selectedOption, apiData } });
+    navigate('/blogfield', { state: { selectedOption, apiData } });
   };
 
   const handleLogout = () => {
     // Handle logout logic here (e.g., clearing auth tokens)
+    const isAuthenticated = localStorage.getItem('authToken');
+    console.log("is",isAuthenticated)
     localStorage.removeItem('authToken');
+
     navigate("/");
   };
 
-  const handleEdit = (postId) => {
-    navigate("/editor"); // Navigate to the editor page with the postId { state: { postId } }
+  const handleEdit = async (postId) => {
+    
+    try {
+              const result = await linkapi(postId); // Await the API result
+              const parser = new DOMParser();
+              const doc = parser.parseFromString(result.data, "text/html");
+              const preTag = doc.querySelector("pre");
+    
+              if (preTag) {
+                const jsonString = preTag.textContent;
+                localStorage.setItem("blogdetails",jsonString)
+              }
+            } catch (error) {
+              console.error("Error while fetching API:", error);
+              
+            }
+    navigate("/blogs/reactapps/edits",{state:{postId}}); // Navigate to the editor page with the postId { state: { postId } }
   };
 
   const handleOptionChange = async (event) => {
@@ -90,7 +109,7 @@ const Dashboard = () => {
             }}
           >
             <option value="">Select Website URL</option>
-            {['gmart.in', 'encriss.com', 'automation.gmart.in', 'network.gmart.in', 'devices.encriss.com'].map((status, index) => (
+            {['gmart.in', 'encriss.com', 'automation.gmart.in', 'network.gmart.in', 'devices.encriss.com','testing.in'].map((status, index) => (
               <option key={index} value={status}>
                 {status}
               </option>
