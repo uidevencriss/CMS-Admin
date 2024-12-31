@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+
 import { MyRequestBody } from "src/services/authServices";
 import { apiCall } from "src/services/authServices";
 import { linkapi } from "src/services/authServices";
@@ -30,10 +30,7 @@ export const useDemoData = ({
   //const [data, setData] = useState<Partial<UserData>>({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const location = useLocation();
-  const blogUrl = location.state.postId || {};
 
-  console.log(blogUrl);
   const [data] = useState<Partial<UserData>>(() => {
     const dataStr = localStorage.getItem("blogdetails");
 

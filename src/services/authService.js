@@ -30,6 +30,21 @@ export const createblogs = async (body) => {
     throw error;
   }
 }
+export const updateblogs = async (body) => {
+  const isAuthenticated = localStorage.getItem('authToken');
+  try {
+    const response = await axios.post(`${API_URL}/update-blog`, body, {
+      headers: {
+        Authorization: `Bearer ${isAuthenticated}`, // Adding Auth Token
+      },
+    });
+    console.log("Success:", response.data);
+    return response;
+  } catch (error) {
+    console.log("error",error);
+    throw error;
+  }
+}
 export const linkapi = async (body) => {
   
   const response = await axios.get(`${body}`);

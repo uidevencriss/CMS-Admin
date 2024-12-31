@@ -43,9 +43,10 @@ const Dashboard = () => {
   };
 
   const handleEdit = async (postId) => {
-    
+            localStorage.setItem("updatedetails",JSON.stringify(postId))
     try {
-              const result = await linkapi(postId); // Await the API result
+            debugger;
+              const result = await linkapi(postId.BlogURL); // Await the API result
               const parser = new DOMParser();
               const doc = parser.parseFromString(result.data, "text/html");
               const preTag = doc.querySelector("pre");
@@ -58,7 +59,7 @@ const Dashboard = () => {
               console.error("Error while fetching API:", error);
               
             }
-    navigate("/blogs/reactapps/edits",{state:{postId}}); // Navigate to the editor page with the postId { state: { postId } }
+    navigate("/blogs/reactapps/edits"); // Navigate to the editor page with the postId { state: { postId } }
   };
 
   const handleOptionChange = async (event) => {
@@ -215,7 +216,7 @@ const Dashboard = () => {
                 <td>{post.BlogCategory}</td>
                 <td>{new Date(post.created_at).toLocaleDateString("en-GB")}</td>
                 <td>
-                  <Button variant="primary" onClick={() => handleEdit(post.BlogURL)}>
+                  <Button variant="primary" onClick={() => handleEdit(post)}>
                     Edit
                   </Button>
                   {post.PublishingStatus === "published" ? (

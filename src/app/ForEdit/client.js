@@ -3,7 +3,8 @@ import React from "react";
 import { Button,Puck, Render } from "../../core";
 import config from "../config";
 import { useDemoData} from "../libForEdit/use-demo-data"
-import { createblogs } from "../../services/authService";
+import { updateblogs } from "../../services/authService";
+
 const Client = ({ path, isEdit })  => {
 
     const { data, resolvedData, key } = useDemoData({
@@ -66,9 +67,11 @@ const Client = ({ path, isEdit })  => {
               //   const htmlContent = generateHtmlContent(data.content);
               // console.log(htmlContent)
              // debugger;
-                const savedData = JSON.parse(localStorage.getItem("blogData"));
+                const savedData = JSON.parse(localStorage.getItem("updatedetails"));
+                debugger;
                 console.log(savedData);
                 const requestBody = {
+                  id: savedData.id,
                   BlogTitle: titleContent,
                   website: savedData.website,
                   coverImage: "https://dev-cmsautomations.s3.ap-south-1.amazonaws.com/assets/image/23d513dc-1592-40b3-a730-a797734f9aac.jpg",
@@ -80,7 +83,7 @@ const Client = ({ path, isEdit })  => {
                 };
                 //localStorage.setItem(key, JSON.stringify(response));
                 localStorage.setItem(key, JSON.stringify(data));
-               const response = await createblogs(requestBody);
+               const response = await updateblogs(requestBody);
                
 
         //         const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
