@@ -1,23 +1,28 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement, Suspense } from "react";
 import { ComponentConfig } from "../../../../core/types";
 import styles from "./styles.module.css";
 import { getClassNameFactory } from "../../../../core/lib";
-// import dynamic from "next/dynamic";
 import dynamicIconImports from "lucide-react/dynamicIconImports";
 
 const getClassName = getClassNameFactory("Card", styles);
 
+// Lazy loaded icons ko Suspense ke saath wrap karna
 const icons = Object.keys(dynamicIconImports).reduce<
   Record<string, ReactElement>
 >((acc, iconName) => {
-  const El = React.lazy((dynamicIconImports as any)[iconName]);
+  const El = React.lazy((dynamicIconImports as any)[iconName]); // Dynamic imports
 
   return {
     ...acc,
-    [iconName]: <El />,
+    [iconName]: (
+      <Suspense fallback={<span>Loading...</span>}>
+        <El />
+      </Suspense>
+    ),
   };
 }, {});
 
+// Options ke liye dynamic list
 const iconOptions = Object.keys(dynamicIconImports).map((iconName) => ({
   label: iconName,
   value: iconName,

@@ -4,29 +4,33 @@ import Table from 'react-bootstrap/Table';
 import { blogslisting } from '../services/authService';
 import { useNavigate } from 'react-router-dom';
 import { linkapi } from '../services/authService';
+import { FaExternalLinkAlt } from 'react-icons/fa';
 const Dashboard = () => {
   const [selectedOption, setSelectedOption] = useState('');
   const [apiData, setApiData] = useState([]);
   const isReadOnly = false; // Modify this based on your use case
   const navigate = useNavigate();
-  useEffect(() => {
-    const isAuthenticated = localStorage.getItem('authToken');
+useEffect(() => {
+  const isAuthenticated = localStorage.getItem('authToken');
 
-    if (!isAuthenticated) {
-      navigate('/');
+  if (!isAuthenticated) {
+    navigate('/');
+  }
+
+  // Restore session data
+  const savedOption = sessionStorage.getItem('selectedOption');
+  const savedData = sessionStorage.getItem('apiData');
+  if (savedOption) {
+    setSelectedOption(savedOption);
+  }
+  if (savedData) {
+    try {
+      setApiData(JSON.parse(savedData)); // Parse stored string into JSON
+    } catch (error) {
+      console.error('Error parsing saved data:', error);
     }
-  
-    // Retain data if already set
-    if (!selectedOption && !apiData.length) {
-      const savedOption = sessionStorage.getItem('selectedOption');
-      const savedData = sessionStorage.getItem('apiData');
-  
-      if (savedOption) {
-        setSelectedOption(savedOption);
-        setApiData(savedData ? JSON.parse(savedData) : []);
-      }
-    }
-  }, [navigate, selectedOption, apiData]);
+  }
+}, [navigate]);
   
 
   const handleAddNew = () => {
@@ -45,7 +49,6 @@ const Dashboard = () => {
   const handleEdit = async (postId) => {
             localStorage.setItem("updatedetails",JSON.stringify(postId))
     try {
-            debugger;
               const result = await linkapi(postId.BlogURL); // Await the API result
               const parser = new DOMParser();
               const doc = parser.parseFromString(result.data, "text/html");
@@ -65,21 +68,25 @@ const Dashboard = () => {
   const handleOptionChange = async (event) => {
     const selectedValue = event.target.value;
     setSelectedOption(selectedValue);
-
+    sessionStorage.setItem('selectedOption', selectedValue); // Persist selected option
+  
     if (selectedValue) {
       try {
         const response = await blogslisting(selectedValue);
-        const filtered = response.data.filter((user) => user.website === selectedValue);
-        setApiData(filtered); // Set the fetched data in state
-        sessionStorage.setItem('apiData', filtered);
+        const filtered = response.data
+        .filter((user) => user.website === selectedValue)
+        .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)); 
+        setApiData(filtered);
+        sessionStorage.setItem('apiData', JSON.stringify(filtered)); // Save data to session storage
       } catch (error) {
         console.error('Error fetching data:', error);
       }
     } else {
-      setApiData([]); // Reset the data if no option is selected
-      sessionStorage.removeItem('apiData');
+      setApiData([]);
+      sessionStorage.removeItem('apiData'); // Clear session data if no option selected
     }
   };
+  
 
   return (
     <div>
@@ -172,7 +179,7 @@ const Dashboard = () => {
                 padding: "12px",
                 textAlign: "left",
                 border: "1px solid #ddd",
-              }}>Publishing Status</th>
+              }}>Current Status</th>
             <th style={{
                 backgroundColor: "#f2f2f2",
                 color: "#333",
@@ -203,10 +210,10 @@ const Dashboard = () => {
           {apiData.length > 0 ? (
             apiData.map((post, index) => (
               <tr key={index}>
-                <td>{post.website}</td>
+                <td style={{ paddingLeft: "15px" }}>{post.website}</td>
                 <td>
                   <a href={post.BlogURL} target="_blank" rel="noopener noreferrer">
-                    {post.BlogTitle}
+                    {post.BlogTitle} <FaExternalLinkAlt style={{ marginLeft: '5px' }} />
                   </a>
                 </td>
                 <td>

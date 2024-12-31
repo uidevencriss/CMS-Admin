@@ -72,11 +72,17 @@ const LoginForm = ({ handleSubmit, onSignup, error }) => {
     alert: {
       marginBottom: "20px",
     },
+    logo: {
+      width: "50px", // Adjust size as needed
+      marginBottom: "20px",
+    },
   };
 
   return (
     <div style={styles.container}>
       <Form onSubmit={onSubmit} style={styles.form}>
+      <img src="/favicon.ico" alt="Logo" style={styles.logo} />
+
         {error && (
           <Alert variant="danger" style={styles.alert}>
             {error}

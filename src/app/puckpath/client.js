@@ -67,7 +67,6 @@ const Client = ({ path, isEdit })  => {
               // console.log(htmlContent)
              // debugger;
                 const savedData = JSON.parse(localStorage.getItem("blogData"));
-                
                 const requestBody = {
                   BlogTitle: titleContent,
                   website: savedData.website,
