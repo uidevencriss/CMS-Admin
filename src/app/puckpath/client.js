@@ -96,7 +96,7 @@ const Client = ({ path, isEdit })  => {
         // URL.revokeObjectURL(url);
               }}
             //   plugins={[headingAnalyzer]}
-              headerPath={path}
+              // headerPath={path}
               overrides={{
                 headerActions: ({ children }) => (
                   <>

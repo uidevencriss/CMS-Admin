@@ -9,7 +9,7 @@ function Root({ children, puck }: RootProps) {
     <>
       <Header editMode={puck.isEditing} />
       {children}
-      <Footer>
+      {/* <Footer>
         <Footer.List title="Section">
           <Footer.Link href="">Label</Footer.Link>
           <Footer.Link href="">Label</Footer.Link>
@@ -34,7 +34,7 @@ function Root({ children, puck }: RootProps) {
           <Footer.Link href="">Label</Footer.Link>
           <Footer.Link href="">Label</Footer.Link>
         </Footer.List>
-      </Footer>
+      </Footer> */}
     </>
   );
 }
