@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useNavigate } from "react-router-dom";
-function BlogField () {
+
+function BlogField() {
   const [tags, setTags] = useState([]); // Store all tags
   const [inputValue, setInputValue] = useState(""); // Store input value
   const [website, setField1] = useState(""); // Input for first column
@@ -9,6 +10,7 @@ function BlogField () {
   const [publisher_name, setField3] = useState(""); // Input for third column
   const [PublishingStatus, setStatus] = useState(""); // Store Published/Unpublished status
   const navigate = useNavigate();
+
   const handleInputChange = (e) => setInputValue(e.target.value);
 
   const handleKeyPress = (e) => {
@@ -29,7 +31,17 @@ function BlogField () {
   };
 
   const handleSubmit = () => {
-    //debugger
+    if (
+      !website ||
+      !BlogCategory ||
+      !publisher_name ||
+      tags.length === 0 ||
+      !PublishingStatus
+    ) {
+      alert("All fields are mandatory, including tags and status.");
+      return;
+    }
+
     const data = {
       tags,
       website,
@@ -37,16 +49,14 @@ function BlogField () {
       publisher_name,
       PublishingStatus,
     };
-    if (data) {
-      
-      localStorage.setItem("blogData", JSON.stringify(data));
-      navigate('/blogs/reactapp/edit')
-    }
+
+    localStorage.setItem("blogData", JSON.stringify(data));
+    navigate("/blogs/reactapp/edit");
   };
 
   return (
     <div className="container mt-5">
-      <h2>Add Tags and Inputs</h2>
+      <h2><span style={{ color: "red" }}>*</span>Add Tags and Inputs</h2>
 
       <div className="form-group">
         <input
@@ -60,34 +70,37 @@ function BlogField () {
       </div>
 
       <div className="mt-3">
-        {tags.map((tag, index) => (
-          <span
-            key={index}
-            className="badge badge-info mx-1"
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              padding: "10px",
-              borderRadius: "20px",
-              color: "black",
-            }}
-          >
-            {tag}
-            <button
-              type="button"
-              className="btn btn-sm btn-light ml-2"
-              style={{ borderRadius: "50%", padding: "0 8px" }}
-              onClick={() => handleRemoveTag(index)}
-            >
-              &times;
-            </button>
-          </span>
-        ))}
-      </div>
+  {tags.map((tag, index) => (
+    <span
+      key={index}
+      className="badge mx-1"
+      style={{
+        display: "inline-flex",
+        alignItems: "center",
+        padding: "10px",
+        borderRadius: "20px",
+        backgroundColor: "#add8e6", // Light blue background
+        color: "black",
+        fontWeight: "bold",
+      }}
+    >
+      {tag}
+      <button
+        type="button"
+        className="btn btn-sm btn-light ml-2"
+        style={{ borderRadius: "50%", padding: "0 8px" }}
+        onClick={() => handleRemoveTag(index)}
+      >
+        &times;
+      </button>
+    </span>
+  ))}
+</div>
 
-      <div className="row mt-4">
-        <div className="row-md-4">
-          <h6>Enter Website Name</h6>
+
+      <div className="col mt-4">
+        <div className="col-md-4">
+          <h6><span style={{ color: "red" }}>*</span>Enter Website Name</h6>
           <input
             type="text"
             className="form-control"
@@ -96,8 +109,9 @@ function BlogField () {
             onChange={handleField1Change}
           />
         </div>
-        <div className="row-md-4">
-          <h6>Enter Blog Category</h6>
+        <br />
+        <div className="col-md-4">
+          <h6><span style={{ color: "red" }}>*</span>Enter Blog Category</h6>
           <input
             type="text"
             className="form-control"
@@ -106,8 +120,9 @@ function BlogField () {
             onChange={handleField2Change}
           />
         </div>
-        <div className="row-md-4">
-          <h6>Enter Publisher name</h6>
+        <br />
+        <div className="col-md-4">
+          <h6><span style={{ color: "red" }}>*</span>Enter Publisher name</h6>
           <input
             type="text"
             className="form-control"
@@ -119,18 +134,27 @@ function BlogField () {
       </div>
 
       <div className="mt-4">
-        <h6>Status</h6>
+        <h6><span style={{ color: "red" }}>*</span>Status</h6>
         <button
-          className={`btn ${PublishingStatus === "Published" ? "btn-success" : "btn-outline-success"} mr-2`}
+          className={`btn ${
+            PublishingStatus === "Published"
+              ? "btn-success"
+              : "btn-outline-success"
+          }`}
+          style={{ marginRight: "15px" }} // Gap between buttons
           onClick={() => setStatus("Published")}
         >
           Published
         </button>
         <button
-          className={`btn ${PublishingStatus === "Unpublished" ? "btn-danger" : "btn-outline-danger"}`}
+          className={`btn ${
+            PublishingStatus === "Unpublished"
+              ? "btn-danger"
+              : "btn-outline-danger"
+          }`}
           onClick={() => setStatus("Unpublished")}
         >
-          Unpublished
+          Draft
         </button>
       </div>
 
